@@ -1,19 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    name: 'Padre',
+    children: [
+      {
+        path: '/',
+        name: 'Madre',
+        component: () => import('@/views/AppWrapper.vue'),
+        children: [
+          {
+             path: '/',
+             name: 'Main',
+             component: () => import('@/views/HomeView.vue')
+          },
+          {
+            path: '/contact', // Define la ruta de la página de contacto
+            name: 'Contact', // Nombre de la ruta
+            component: () => import('@/views/ContactView.vue') // Componente asociado a la página de contacto
+          }
+        ]
+      }
+    ]
   }
 ]
 
