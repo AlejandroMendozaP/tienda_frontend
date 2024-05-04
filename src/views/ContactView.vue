@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <!-- ================ start banner area ================= -->
+    <!-- ================ start banner area ================= -->
 	<section class="blog-banner-area" id="contact">
 		<div class="container h-100">
 			<div class="blog-banner">
@@ -22,8 +21,7 @@
   <section class="section-margin--small">
     <div class="container">
       <div class="d-none d-sm-block mb-5 pb-4">
-        <div id="map" style="height: 420px;"></div>
-        
+        <div id="map" style="height: 420px;"></div>        
       </div>
 
 
@@ -52,7 +50,7 @@
           </div>
         </div>
         <div class="col-md-8 col-lg-9">
-          <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+          <form action="#/" class="form-contact contact_form" method="post" id="contactForm" novalidate="novalidate">
             <div class="row">
               <div class="col-lg-5">
                 <div class="form-group">
@@ -80,5 +78,4 @@
     </div>
   </section>
 	<!-- ================ contact section end ================= -->
-    </div>
 </template>
