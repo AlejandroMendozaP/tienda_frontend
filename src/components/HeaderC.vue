@@ -17,19 +17,8 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                  <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                </ul>
-							</li>
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Blog</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+                  <li class="nav-item"><router-link to="/category" class="nav-link">Category</router-link></li>
+                  <li class="nav-item"><a class="nav-link" href="single-product.html">View All</a></li>
                 </ul>
 							</li>
 							<li class="nav-item submenu dropdown">
@@ -41,7 +30,7 @@
                   <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
                 </ul>
               </li>
-              <li class="nav-item"><router-link to="/contact" class="nav-link">Contacto</router-link></li>
+              <li class="nav-item"><router-link to="/contact" class="nav-link">Contact</router-link></li>
             </ul>
 
             <ul class="nav-shop">

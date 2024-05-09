@@ -19,6 +19,11 @@ const routes = [
             path: '/contact', // Define la ruta de la página de contacto
             name: 'Contact', // Nombre de la ruta
             component: () => import('@/views/ContactView.vue') // Componente asociado a la página de contacto
+          },
+          {
+            path: '/category', // Define la ruta de la página de contacto
+            name: 'Category', // Nombre de la ruta
+            component: () => import('@/views/CategoryView.vue') // Componente asociado a la página de contacto
           }
         ]
       }

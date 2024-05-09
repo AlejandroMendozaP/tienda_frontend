@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="col-md-8 col-lg-9">
-          <form action="#/" class="form-contact contact_form" method="post" id="contactForm" novalidate="novalidate">
+          <form action="#/" class="form-contact contact_form" method="post" id="contactForm">
             <div class="row">
               <div class="col-lg-5">
                 <div class="form-group">
