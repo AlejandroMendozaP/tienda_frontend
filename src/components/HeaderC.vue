@@ -12,7 +12,7 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item active"><router-link to="/" class="nav-link">Home</router-link></li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
@@ -25,7 +25,6 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Pages</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
                   <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
                   <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
                 </ul>
@@ -35,7 +34,7 @@
 
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><router-link to="/login"  class="button button-header">Login</router-link>&nbsp;&nbsp;<a class="button button-header" href="#">Register</a></li>
+              <li class="nav-item"><router-link to="/login" class="button button-header">Login</router-link>&nbsp;&nbsp;<router-link to="/register" class="button button-header">Register</router-link></li>
             </ul>
           </div>
         </div>
