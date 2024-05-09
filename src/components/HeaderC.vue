@@ -21,14 +21,6 @@
                   <li class="nav-item"><a class="nav-link" href="single-product.html">View All</a></li>
                 </ul>
 							</li>
-							<li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
-                </ul>
-              </li>
               <li class="nav-item"><router-link to="/contact" class="nav-link">Contact</router-link></li>
             </ul>
 
