@@ -24,177 +24,16 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-5">
-          <div class="sidebar-categories">
-            <div class="head">Browse Categories</div>
-            <ul class="main-categories">
-              <li class="common-filter">
-                <form action="#">
-                  <ul>
-                    <li class="filter-list">
-                      <input
-                        class="pixel-radio"
-                        type="radio"
-                        id="men"
-                        name="brand"
-                      /><label for="men">Men<span> (3600)</span></label>
-                    </li>
-                    <li class="filter-list">
-                      <input
-                        class="pixel-radio"
-                        type="radio"
-                        id="women"
-                        name="brand"
-                      /><label for="women">Women<span> (3600)</span></label>
-                    </li>
-                    <li class="filter-list">
-                      <input
-                        class="pixel-radio"
-                        type="radio"
-                        id="accessories"
-                        name="brand"
-                      /><label for="accessories"
-                        >Accessories<span> (3600)</span></label
-                      >
-                    </li>
-                    <li class="filter-list">
-                      <input
-                        class="pixel-radio"
-                        type="radio"
-                        id="footwear"
-                        name="brand"
-                      /><label for="footwear"
-                        >Footwear<span> (3600)</span></label
-                      >
-                    </li>
-                    <li class="filter-list">
-                      <input
-                        class="pixel-radio"
-                        type="radio"
-                        id="bayItem"
-                        name="brand"
-                      /><label for="bayItem"
-                        >Bay item<span> (3600)</span></label
-                      >
-                    </li>
-                    <li class="filter-list">
-                      <input
-                        class="pixel-radio"
-                        type="radio"
-                        id="electronics"
-                        name="brand"
-                      /><label for="electronics"
-                        >Electronics<span> (3600)</span></label
-                      >
-                    </li>
-                    <li class="filter-list">
-                      <input
-                        class="pixel-radio"
-                        type="radio"
-                        id="food"
-                        name="brand"
-                      /><label for="food">Food<span> (3600)</span></label>
-                    </li>
-                  </ul>
-                </form>
-              </li>
-            </ul>
-          </div>
           <div class="sidebar-filter">
             <div class="top-filter-head">Product Filters</div>
             <div class="common-filter">
-              <div class="head">Brands</div>
+              <div class="head">Categorías</div>
               <form action="#">
                 <ul>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="apple"
-                      name="brand"
-                    /><label for="apple">Apple<span>(29)</span></label>
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="asus"
-                      name="brand"
-                    /><label for="asus">Asus<span>(29)</span></label>
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="gionee"
-                      name="brand"
-                    /><label for="gionee">Gionee<span>(19)</span></label>
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="micromax"
-                      name="brand"
-                    /><label for="micromax">Micromax<span>(19)</span></label>
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="samsung"
-                      name="brand"
-                    /><label for="samsung">Samsung<span>(19)</span></label>
-                  </li>
-                </ul>
-              </form>
-            </div>
-            <div class="common-filter">
-              <div class="head">Color</div>
-              <form action="#">
-                <ul>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="black"
-                      name="color"
-                    /><label for="black">Black<span>(29)</span></label>
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="balckleather"
-                      name="color"
-                    /><label for="balckleather"
-                      >Black Leather<span>(29)</span></label
-                    >
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="blackred"
-                      name="color"
-                    /><label for="blackred"
-                      >Black with red<span>(19)</span></label
-                    >
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="gold"
-                      name="color"
-                    /><label for="gold">Gold<span>(19)</span></label>
-                  </li>
-                  <li class="filter-list">
-                    <input
-                      class="pixel-radio"
-                      type="radio"
-                      id="spacegrey"
-                      name="color"
-                    /><label for="spacegrey">Spacegrey<span>(19)</span></label>
+                  <!-- Iterar sobre la lista de categorías y mostrar cada una como una opción de radio -->
+                  <li v-for="category in categories" :key="category.id" class="filter-list">
+                    <input class="pixel-radio" type="radio" :id="category.id" name="category" :value="category.id" />
+                    <label :for="category.id">{{ category.nombre }} <span>({{ category.count }})</span></label>
                   </li>
                 </ul>
               </form>
@@ -244,31 +83,33 @@
           <!-- End Filter Bar -->
           <!-- Start Best Seller -->
           <section class="lattest-product-area pb-40 category-list">
-              <div class="row">
-                <!-- Utiliza v-for para iterar sobre la lista de productos -->
-                <div class="col-md-6 col-lg-4" v-for="product in products" :key="product.id">
-                  <div class="card text-center card-product">
-                    <div class="card-product__img">
-                      <!-- Usa la imagen del producto -->
-                      <!-- <img class="card-img" :src="product.image" alt="" /> -->
-                      <ul class="card-product__imgOverlay">
-                        <li><button><i class="ti-search"></i></button></li>
-                        <li><button><i class="ti-shopping-cart"></i></button></li>
-                        <li><button><i class="ti-heart"></i></button></li>
-                      </ul>
-                    </div>
-                    <div class="card-body">
-                      <!-- Muestra la categoría del producto -->
-                      <!-- <p>{{ product.category }}</p> -->
-                      <h4 class="card-product__title"><router-link :to="{ name: 'ProductDetail', params: { id: product.id }}">{{ product.nombre }}</router-link></h4>
-                      <!-- Muestra el precio del producto -->
-                      <p class="card-product__price">${{ product.precio }}</p>
-                    </div>
+            <div class="row">
+              <!-- Utiliza v-for para iterar sobre la lista de productos -->
+              <div class="col-md-6 col-lg-4" v-for="product in products" :key="product.id">
+                <div class="card text-center card-product">
+                  <div class="card-product__img">
+                    <!-- Usa la imagen del producto -->
+                    <!-- <img class="card-img" :src="product.image" alt="" /> -->
+                    <ul class="card-product__imgOverlay">
+                      <li><button><i class="ti-search"></i></button></li>
+                      <li><button><i class="ti-shopping-cart"></i></button></li>
+                      <li><button><i class="ti-heart"></i></button></li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <!-- Muestra la categoría del producto -->
+                    <!-- <p>{{ product.category }}</p> -->
+                    <h4 class="card-product__title"><router-link
+                        :to="{ name: 'ProductDetail', params: { id: product.id } }">{{ product.nombre }}</router-link>
+                    </h4>
+                    <!-- Muestra el precio del producto -->
+                    <p class="card-product__price">${{ product.precio }}</p>
                   </div>
                 </div>
               </div>
-            </section>
-            <!-- End Best Seller -->
+            </div>
+          </section>
+          <!-- End Best Seller -->
         </div>
       </div>
     </div>
@@ -399,11 +240,13 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      products: [] // Aquí almacenarás los productos obtenidos de la API
+      products: [],
+      categories: [] // Aquí almacenarás los productos obtenidos de la API
     };
   },
   mounted() {
     this.fetchProducts(); // Llama a fetchProducts cuando el componente se monta
+    this.fetchCategories();
   },
   methods: {
     async fetchProducts() {
@@ -411,6 +254,15 @@ export default {
         const response = await axios.get('http://localhost:3000/producto');
         // Si la solicitud es exitosa, asigna los datos recibidos a una variable en tu componente
         this.products = response.data;
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    },
+    async fetchCategories() {
+      try {
+        const response = await axios.get('http://localhost:3000/categoria-producto');
+        // Si la solicitud es exitosa, asigna los datos recibidos a una variable en tu componente
+        this.categories = response.data;
       } catch (error) {
         console.error('Error fetching products:', error);
       }
