@@ -17,7 +17,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><router-link to="/category" class="nav-link">Category</router-link></li>
+                  <li class="nav-item"><router-link to="/products" class="nav-link">Products</router-link></li>
                   <li class="nav-item"><a class="nav-link" href="single-product.html">View All</a></li>
                 </ul>
 							</li>

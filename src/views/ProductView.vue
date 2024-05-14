@@ -260,7 +260,7 @@
                     <div class="card-body">
                       <!-- Muestra la categoría del producto -->
                       <!-- <p>{{ product.category }}</p> -->
-                      <h4 class="card-product__title"><a href="#">{{ product.nombre }}</a></h4>
+                      <h4 class="card-product__title"><router-link :to="{ name: 'ProductDetail', params: { id: product.id }}">{{ product.nombre }}</router-link></h4>
                       <!-- Muestra el precio del producto -->
                       <p class="card-product__price">${{ product.precio }}</p>
                     </div>

@@ -21,10 +21,16 @@ const routes = [
             component: () => import('@/views/ContactView.vue') // Componente asociado a la página de contacto
           },
           {
-            path: '/category', // Define la ruta de la página de contacto
-            name: 'Category', // Nombre de la ruta
-            component: () => import('@/views/CategoryView.vue') // Componente asociado a la página de contacto
+            path: '/products', // Define la ruta de la página de contacto
+            name: 'Products', // Nombre de la ruta
+            component: () => import('@/views/ProductView.vue'), // Componente asociado a la página de contacto
           },
+          {
+            path: '/products/:id', // La parte ":id" indica que esta parte de la ruta será dinámica y representará el ID del producto
+            name: 'ProductDetail', // Nombre de la ruta
+            component: () => import('@/views/ProductDetailView.vue'), // Componente asociado a la vista de detalle del producto
+            props: true // Habilita el paso de props al componente de la vista de detalle del producto
+          },          
           {
             path: '/login', // Define la ruta de la página de contacto
             name: 'Login', // Nombre de la ruta
