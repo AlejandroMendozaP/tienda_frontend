@@ -11,9 +11,9 @@ const routes = [
         component: () => import('@/views/AppWrapper.vue'),
         children: [
           {
-             path: '/',
-             name: 'Main',
-             component: () => import('@/views/HomeView.vue')
+            path: '/',
+            name: 'Main',
+            component: () => import('@/views/HomeView.vue')
           },
           {
             path: '/contact', // Define la ruta de la página de contacto
@@ -30,7 +30,7 @@ const routes = [
             name: 'ProductDetail', // Nombre de la ruta
             component: () => import('@/views/ProductDetailView.vue'), // Componente asociado a la vista de detalle del producto
             props: true // Habilita el paso de props al componente de la vista de detalle del producto
-          },          
+          },
           {
             path: '/login', // Define la ruta de la página de contacto
             name: 'Login', // Nombre de la ruta

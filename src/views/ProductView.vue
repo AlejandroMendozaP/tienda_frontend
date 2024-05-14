@@ -30,9 +30,15 @@
               <div class="head">Categorías</div>
               <form action="#">
                 <ul>
+                  <li class="filter-list">
+                    <input class="pixel-radio" type="radio" id="all" name="category" value="all"
+                      @change="filterProductsByCategory('all')" />
+                    <label for="all">Todos los productos</label>
+                  </li>
                   <!-- Iterar sobre la lista de categorías y mostrar cada una como una opción de radio -->
                   <li v-for="category in categories" :key="category.id" class="filter-list">
-                    <input class="pixel-radio" type="radio" :id="category.id" name="category" :value="category.id" />
+                    <input class="pixel-radio" type="radio" :id="category.id" name="category" :value="category.nombre"
+                      @change="filterProductsByCategory(category.nombre)" />
                     <label :for="category.id">{{ category.nombre }} <span>({{ category.count }})</span></label>
                   </li>
                 </ul>
@@ -249,6 +255,20 @@ export default {
     this.fetchCategories();
   },
   methods: {
+    async filterProductsByCategory(categoryName) {
+      try {
+        let url;
+        if (categoryName === 'all') {
+          url = 'http://localhost:3000/producto';
+        } else {
+          url = `http://localhost:3000/producto/categoria/${categoryName}`;
+        }
+        const response = await axios.get(url);
+        this.products = response.data;
+      } catch (error) {
+        console.error('Error fetching products by category:', error);
+      }
+    },
     async fetchProducts() {
       try {
         const response = await axios.get('http://localhost:3000/producto');
