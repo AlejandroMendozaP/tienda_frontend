@@ -1,5 +1,5 @@
 <template>
-    <header class="header_area">
+  <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
@@ -20,13 +20,17 @@
                   <li class="nav-item"><router-link to="/products" class="nav-link">Products</router-link></li>
                   <li class="nav-item"><a class="nav-link" href="single-product.html">View All</a></li>
                 </ul>
-							</li>
+              </li>
               <li class="nav-item"><router-link to="/contact" class="nav-link">Contact</router-link></li>
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><router-link to="/login" class="button button-header">Login</router-link>&nbsp;&nbsp;<router-link to="/register" class="button button-header">Register</router-link></li>
+              <li v-if="isAuthenticated" class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle"></span></button> </li>
+              <!--<li class="nav-item"><router-link to="/login" class="button button-header">Login</router-link>&nbsp;&nbsp;<router-link to="/register" class="button button-header">Register</router-link></li>-->
+              <li v-if="isAuthenticated"><router-link to="/profile">Profile</router-link></li>
+              <li v-if="!isAuthenticated"><router-link class="button button-header" to="/login">Login</router-link></li>
+              <li v-if="!isAuthenticated"><router-link class="button button-header" to="/register">Register</router-link></li>
+              <li v-if="isAuthenticated"><a @click="logout">Logout</a></li>
             </ul>
           </div>
         </div>
@@ -34,3 +38,16 @@
     </div>
   </header>
 </template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex';
+
+export default {
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
+  methods: {
+    ...mapActions(['logout'])
+  }
+};
+</script>
