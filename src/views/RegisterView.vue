@@ -60,7 +60,17 @@
 									required />
 							</div>
 							<div class="col-md-12 form-group">
+								<select class="form-control" v-model="selectedEstado" @change="fetchCiudades" required>
+									<option value="" disabled selected>Seleccione un estado</option>
+									<option v-for="estado in estados" :key="estado.id" :value="estado.nombre">
+										{{ estado.nombre }}
+									</option>
+								</select>
+								<span v-if="estados.length === 0">No hay estados disponibles.</span>
+							</div>
+							<div class="col-md-12 form-group" v-if="ciudades.length > 0">
 								<select class="form-control" v-model="user.ciudad" required>
+									<option value="" disabled selected>Seleccione una ciudad</option>
 									<option v-for="ciudad in ciudades" :key="ciudad.id" :value="ciudad.id">
 										{{ ciudad.nombre }}
 									</option>
@@ -94,16 +104,29 @@ export default {
 				direccion: '',
 				ciudad: ''
 			},
-			ciudades: []
+			estados: [],
+			ciudades: [],
+			selectedEstado: ''
 		};
 	},
 	mounted() {
-		this.fetchCiudades();
+		this.fetchEstados();
 	},
 	methods: {
-		async fetchCiudades() {
+		async fetchEstados() {
 			try {
-				const response = await axios.get('http://localhost:3000/ciudad');
+				const response = await axios.get('http://localhost:3000/estado'); // Ajusta esta URL a tu API de estados
+				this.estados = response.data;
+			} catch (error) {
+				console.error('Error fetching estados:', error);
+			}
+		},
+		async fetchCiudades() {
+			if (!this.selectedEstado) {
+				return;
+			}
+			try {
+				const response = await axios.get(`http://localhost:3000/ciudad/estado/nombre/${this.selectedEstado}`);
 				this.ciudades = response.data;
 			} catch (error) {
 				console.error('Error fetching ciudades:', error);
@@ -111,7 +134,15 @@ export default {
 		},
 		async registerUser() {
 			try {
-				const userPayload = { ...this.user };
+				const userPayload = {
+					nombre: this.user.nombre,
+					apellido: this.user.apellido,
+					email: this.user.email,
+					contrasena: this.user.contrasena,
+					telefono: this.user.telefono,
+					direccion: this.user.direccion,
+					ciudadId: this.user.ciudad
+				};
 				const response = await axios.post('http://localhost:3000/cliente', userPayload);
 				console.log('Usuario registrado:', response.data);
 				this.$router.push('/login');
