@@ -45,6 +45,11 @@ const routes = [
             path: '/profile', // Define la ruta de la página de contacto
             name: 'Profile', // Nombre de la ruta
             component: () => import('@/views/ProfileView.vue')
+          },
+          {
+            path: '/cart', // Define la ruta de la página de contacto
+            name: 'Cart', // Nombre de la ruta
+            component: () => import('@/views/CartView.vue')
           }
         ]
       }

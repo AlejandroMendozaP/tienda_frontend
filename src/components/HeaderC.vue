@@ -12,25 +12,26 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><router-link to="/" class="nav-link">Home</router-link></li>
-              <li class="nav-item submenu dropdown">
+              <li class="nav-item"><router-link to="/" class="nav-link">Home</router-link></li>
+              <li class="nav-item"><router-link to="/products" class="nav-link">Shop</router-link></li>
+              <!--<li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item"><router-link to="/products" class="nav-link">Products</router-link></li>
                   <li class="nav-item"><a class="nav-link" href="single-product.html">View All</a></li>
                 </ul>
-              </li>
+              </li>-->
               <li class="nav-item"><router-link to="/contact" class="nav-link">Contact</router-link></li>
             </ul>
 
             <ul class="nav-shop">
-              <li v-if="isAuthenticated" class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle"></span></button> </li>
+              <li v-if="isAuthenticated" class="nav-item"><button><router-link to="/cart"><i class="ti-shopping-cart"></i></router-link></button> </li>
               <!--<li class="nav-item"><router-link to="/login" class="button button-header">Login</router-link>&nbsp;&nbsp;<router-link to="/register" class="button button-header">Register</router-link></li>-->
               <li v-if="isAuthenticated"><router-link to="/profile">Profile</router-link></li>
               <li v-if="!isAuthenticated"><router-link class="button button-header" to="/login">Login</router-link></li>
               <li v-if="!isAuthenticated"><router-link class="button button-header" to="/register">Register</router-link></li>
-              <li v-if="isAuthenticated"><a @click="logout">Logout</a></li>
+              <li v-if="isAuthenticated"><router-link to="/"><a @click="logout">Logout</a></router-link></li>
             </ul>
           </div>
         </div>

@@ -1,0 +1,134 @@
+<template>
+    <!-- ================ start banner area ================= -->
+    <section class="blog-banner-area" id="category">
+        <div class="container h-100">
+            <div class="blog-banner">
+                <div class="text-center">
+                    <h1>Shopping Cart</h1>
+                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================ end banner area ================= -->
+
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in cartItems" :key="item.id">
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img :src="item.image" alt="">
+                                        </div>
+                                        <div class="media-body">
+                                            <p>{{ item.productName }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>${{ item.precioUnitario }}</h5>
+                                </td>
+                                <td>
+                                    <div class="product_count">
+                                        <input type="number" v-model.number="item.cantidad" min="1" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>${{ item.totalItem }}</h5>
+                                </td>
+                            </tr>
+                            <tr class="bottom_button">
+                                <td>
+                                    <a class="button" href="#">Update Cart</a>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                <td>
+                                    <h5>${{ cartTotal }}</h5>
+                                </td>
+                            </tr>
+                            <tr class="out_button_area">
+                                <td class="d-none-l"></td>
+                                <td class=""></td>
+                                <td></td>
+                                <td>
+                                    <div class="checkout_btn_inner d-flex align-items-center">
+                                        <a class="gray_btn" href="#">Continue Shopping</a>
+                                        <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Cart Area =================-->
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    data() {
+        return {
+            cartItems: [], // Aquí almacenarás los items del carrito
+            cartTotal: 0,  // Aquí almacenarás el total del carrito
+        };
+    },
+    mounted() {
+        this.fetchCartData();
+    },
+    methods: {
+        async fetchCartData() {
+            try {
+                const clienteId = 6; // Reemplaza con el ID del cliente actual
+                const carritoId = 8; // Reemplaza con el ID del carrito actual
+
+                // Obtener información del carrito
+                const cartResponse = await axios.get(`http://localhost:3000/carrito-compra/${carritoId}`);
+                this.cartTotal = cartResponse.data.total;
+
+                // Obtener items del carrito
+                const itemsResponse = await axios.get(`http://localhost:3000/item-carrito/cart-items/${clienteId}`);
+                const items = itemsResponse.data;
+
+                // Obtener información adicional del producto
+                const productDetails = await Promise.all(
+                    items.map(item => axios.get(`http://localhost:3000/producto/${item.productId}`))
+                );
+
+                // Agregar la información adicional al objeto del item
+                this.cartItems = items.map((item, index) => ({
+                    ...item,
+                    productName: productDetails[index].data.nombre,
+                    image: productDetails[index].data.image
+                }));
+            } catch (error) {
+                console.error('Error fetching cart data:', error);
+            }
+        }
+    }
+};
+</script>
