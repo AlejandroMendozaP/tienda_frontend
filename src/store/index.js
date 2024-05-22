@@ -24,6 +24,7 @@ const store = createStore({
   getters: {
     isAuthenticated: state => !!state.token,
     user: state => state.user,
+    getUser: state => state.user,
   },
   actions: {
     login({ commit }, { user, token }) {

@@ -40,6 +40,11 @@ const routes = [
             path: '/register', // Define la ruta de la página de contacto
             name: 'Register', // Nombre de la ruta
             component: () => import('@/views/RegisterView.vue') // Componente asociado a la página de contacto
+          },
+          {
+            path: '/profile', // Define la ruta de la página de contacto
+            name: 'Profile', // Nombre de la ruta
+            component: () => import('@/views/ProfileView.vue')
           }
         ]
       }
