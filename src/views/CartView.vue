@@ -29,6 +29,7 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Total</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,16 +49,18 @@
                                 </td>
                                 <td>
                                     <div class="product_count">
-                                        <input type="number" v-model.number="item.cantidad" min="1" />
+                                        <input type="number" v-model.number="item.cantidad" @change="updateItemQuantity(item)" min="1" />
                                     </div>
                                 </td>
                                 <td>
                                     <h5>${{ item.totalItem }}</h5>
                                 </td>
+                                <td>
+                                    <button @click="removeItem(item.id)" class="btn btn-danger"><i class="ti-trash"></i></button>
+                                </td>
                             </tr>
                             <tr class="bottom_button">
                                 <td>
-                                    <a class="button" href="#">Update Cart</a>
                                 </td>
                                 <td></td>
                                 <td>
@@ -89,6 +92,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
     data() {
@@ -97,22 +101,25 @@ export default {
             cartTotal: 0,  // Aquí almacenarás el total del carrito
         };
     },
+    computed: {
+        ...mapGetters(['getUser']) // Obtener el usuario del store de Vuex
+    },
     mounted() {
         this.fetchCartData();
     },
     methods: {
         async fetchCartData() {
             try {
-                const clienteId = 6; // Reemplaza con el ID del cliente actual
-                const carritoId = 8; // Reemplaza con el ID del carrito actual
+                const clienteId = this.getUser.id; // Obtener el ID del cliente desde Vuex
 
-                // Obtener información del carrito
-                const cartResponse = await axios.get(`http://localhost:3000/carrito-compra/${carritoId}`);
-                this.cartTotal = cartResponse.data.total;
-
-                // Obtener items del carrito
+                // Obtener items del carrito para obtener el carritoId
                 const itemsResponse = await axios.get(`http://localhost:3000/item-carrito/cart-items/${clienteId}`);
                 const items = itemsResponse.data;
+                const carritoId = items[0].carritoId; // Asumiendo que siempre habrá al menos un item en el carrito
+
+                // Obtener información del carrito usando el carritoId
+                const cartResponse = await axios.get(`http://localhost:3000/carrito-compra/${carritoId}`);
+                this.cartTotal = cartResponse.data.total;
 
                 // Obtener información adicional del producto
                 const productDetails = await Promise.all(
@@ -127,6 +134,52 @@ export default {
                 }));
             } catch (error) {
                 console.error('Error fetching cart data:', error);
+            }
+        },
+        async removeItem(itemId) {
+            try {
+                await axios.delete(`http://localhost:3000/item-carrito/${itemId}`);
+                this.cartItems = this.cartItems.filter(item => item.id !== itemId);
+
+                // Recalcular el total del carrito
+                const clienteId = this.getUser.id; // Obtener el ID del cliente desde Vuex
+                const itemsResponse = await axios.get(`http://localhost:3000/item-carrito/cart-items/${clienteId}`);
+                const items = itemsResponse.data;
+                const carritoId = items.length > 0 ? items[0].carritoId : null;
+
+                if (carritoId) {
+                    const cartResponse = await axios.get(`http://localhost:3000/carrito-compra/${carritoId}`);
+                    this.cartTotal = cartResponse.data.total;
+                } else {
+                    this.cartTotal = 0;
+                }
+            } catch (error) {
+                console.error('Error removing item:', error);
+            }
+        },
+        async updateItemQuantity(item) {
+            try {
+                const updatedItem = {
+                    cantidad: item.cantidad,
+                    totalItem: item.cantidad * item.precioUnitario // Recalcular el total del item
+                };
+
+                await axios.patch(`http://localhost:3000/item-carrito/${item.id}`, updatedItem);
+
+                // Actualizar el total del carrito después de la modificación
+                const clienteId = this.getUser.id; // Obtener el ID del cliente desde Vuex
+                const itemsResponse = await axios.get(`http://localhost:3000/item-carrito/cart-items/${clienteId}`);
+                const items = itemsResponse.data;
+                const carritoId = items.length > 0 ? items[0].carritoId : null;
+
+                if (carritoId) {
+                    const cartResponse = await axios.get(`http://localhost:3000/carrito-compra/${carritoId}`);
+                    this.cartTotal = cartResponse.data.total;
+                } else {
+                    this.cartTotal = 0;
+                }
+            } catch (error) {
+                console.error('Error updating item quantity:', error);
             }
         }
     }
