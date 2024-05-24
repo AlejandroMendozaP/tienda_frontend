@@ -25,7 +25,7 @@
 				<div class="col-lg-6">
 					<div class="owl-carousel owl-theme s_Product_carousel">
 						<div class="single-prd-item">
-							<img class="img-fluid" :src="product.image" alt="">
+							<img class="img-fluid" :src="product.image" alt="" />
 						</div>
 					</div>
 				</div>
@@ -37,11 +37,16 @@
 							<li><span>Quantity</span>: {{ product.cantidadStock }}</li>
 							<!-- Aquí puedes mostrar más detalles del producto -->
 						</ul>
-						<p>Comprar <br>
-						<!-- Selector de cantidad -->
-						<input type="number" v-model.number="selectedQuantity" min="1" :max="product.cantidadStock" /> &nbsp;&nbsp;&nbsp;&nbsp;
-						<!-- Botón de agregar al carrito -->
-						<button @click="addToCart" class="button primary-btn">Agregar al carrito</button></p>
+						<p>
+							Comprar <br />
+							<!-- Selector de cantidad -->
+							<input type="number" v-model.number="selectedQuantity" min="1"
+								:max="product.cantidadStock" />&nbsp;&nbsp;&nbsp;&nbsp;
+							<!-- Botón de agregar al carrito -->
+							<button @click="addToCart" class="button primary-btn">
+								Agregar al carrito
+							</button>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -158,8 +163,10 @@ export default {
 				};
 				const response = await axios.post('http://localhost:3000/item-carrito/agregar-producto', cartItem);
 				console.log('Producto agregado al carrito:', response.data);
+				alert('Producto agregado al carrito correctamente!');
 			} catch (error) {
 				console.error('Error adding product to cart:', error);
+				alert('Hubo un error al agregar el producto al carrito.');
 			}
 		}
 	}

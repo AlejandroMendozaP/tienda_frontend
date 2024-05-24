@@ -50,6 +50,11 @@ const routes = [
             path: '/cart', // Define la ruta de la página de contacto
             name: 'Cart', // Nombre de la ruta
             component: () => import('@/views/CartView.vue')
+          },
+          {
+            path: '/checkout', // Define la ruta de la página de contacto
+            name: 'Checkout', // Nombre de la ruta
+            component: () => import('@/views/CheckoutView.vue')
           }
         ]
       }

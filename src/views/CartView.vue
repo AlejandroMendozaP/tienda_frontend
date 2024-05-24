@@ -76,8 +76,8 @@
                                 <td></td>
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
-                                        <a class="gray_btn" href="#">Continue Shopping</a>
-                                        <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                        <a class="gray_btn"><router-link to="/products">Continue Shopping</router-link></a>
+                                        <a class="primary-btn ml-2"><router-link to="/checkout">Checkout</router-link></a>
                                     </div>
                                 </td>
                             </tr>
