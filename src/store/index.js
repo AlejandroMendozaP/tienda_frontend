@@ -25,6 +25,7 @@ const store = createStore({
     isAuthenticated: state => !!state.token,
     user: state => state.user,
     getUser: state => state.user,
+    isAdmin: state => state.user && state.user.rol === 'admin'
   },
   actions: {
     login({ commit }, { user, token }) {

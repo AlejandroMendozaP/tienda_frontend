@@ -53,7 +53,7 @@
                       :value="category.nombre"
                       @change="filterProductsByCategory(category.nombre)"
                     />
-                    <label :for="category.id">{{ category.nombre }} <span>({{ category.count }})</span></label>
+                    <label :for="category.id">{{ category.nombre }}</label>
                   </li>
                 </ul>
               </form>
@@ -76,7 +76,7 @@
             <img class="card-img" :src="product.imagenUrl" alt="" />
             <ul class="card-product__imgOverlay">
                 <li>
-                    <button @click="addToCart"><i class="ti-shopping-cart"></i></button>
+                    <!--<button @click="addToCart"><i class="ti-shopping-cart"></i></button>-->
                 </li>
             </ul>
         </div>

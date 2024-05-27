@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store';
 
 const routes = [
   {
@@ -61,7 +62,8 @@ const routes = [
       {
         path: '/admin', // Define la ruta de la página de contacto
         name: 'Admin', // Nombre de la ruta
-        component: () => import('@/views/AdminView.vue')
+        component: () => import('@/views/AdminView.vue'),
+        meta: { requiresAdmin: true }
       }
     ]
   }
@@ -71,5 +73,18 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (!store.getters.isAdmin) {
+      alert('You do not have permission to access this page.');
+      next('/');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router

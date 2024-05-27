@@ -7,6 +7,7 @@
                 <li><a href="#users">Users</a></li>
                 <li><a href="#products">Products</a></li>
                 <li><a href="#categories">Categories</a></li>
+                <li><a href="#brands">Brands</a></li>
                 <li><a href="#reports">Reports</a></li>
             </ul>
         </nav>
@@ -157,12 +158,10 @@
                             <h2>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h2>
                             <form @submit.prevent="isEditMode ? updateProduct() : addNewProduct()"
                                 enctype="multipart/form-data">
-                                <!-- Input para la imagen del producto -->
                                 <div class="form-group">
                                     <label for="productImage">Product Image</label>
                                     <input type="file" id="productImage" @change="onFileChange">
                                 </div>
-                                <!-- Otros campos del producto -->
                                 <div class="form-group">
                                     <label for="productName">Name</label>
                                     <input type="text" id="productName" v-model="productName" required>
@@ -181,17 +180,28 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="productCategory">Category</label>
-                                    <input type="text" id="productCategory" v-model="productCategory" required>
+                                    <select id="productCategory" v-model="productCategory" required>
+                                        <option v-for="category in categories" :key="category.id" :value="category.id">
+                                            {{ category.nombre }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="productBrand">Brand</label>
-                                    <input type="text" id="productBrand" v-model="productBrand" required>
+                                    <select id="productBrand" v-model="productBrand" required>
+                                        <option v-for="brand in brands" :key="brand.id" :value="brand.id">
+                                            {{ brand.nombre }}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="productSupplier">Supplier</label>
-                                    <input type="text" id="productSupplier" v-model="productSupplier" required>
+                                    <select id="productSupplier" v-model="productSupplier" required>
+                                        <option v-for="provider in providers" :key="provider.id" :value="provider.id">
+                                            {{ provider.nombre }}
+                                        </option>
+                                    </select>
                                 </div>
-                                <!-- Botón para enviar el formulario -->
                                 <div class="form-group">
                                     <button type="submit">{{ isEditMode ? 'Update' : 'Add' }} Product</button>
                                 </div>
@@ -199,6 +209,8 @@
                         </div>
                     </div>
                 </section>
+
+
 
                 <section id="categories">
                     <div class="card">
@@ -250,6 +262,112 @@
                     </div>
                 </section>
 
+                <section id="brands">
+                    <div class="card">
+                        <h3>Brand</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-if="brands.length">
+                                    <tr v-for="brand in brands" :key="brand.id">
+                                        <td>{{ brand.id }}</td>
+                                        <td>{{ brand.nombre }}</td>
+                                        <td>
+                                            <button class="edit-btn" @click="editCategory(brand)">Edit</button>
+                                            <button class="delete-btn" @click="deleteCategory(brand.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template v-else>
+                                    <tr>
+                                        <td colspan="3">No brands found.</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <button class="add-btn" @click="openAddBrandModal">Add New Brand</button>
+                    </div>
+
+                    <div v-if="showBrandModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close-btn" @click="closeBrandModal">&times;</span>
+                            <h2>{{ isBrandEditMode ? 'Edit Brand' : 'Add New Brand' }}</h2>
+                            <form @submit.prevent="isBrandEditMode ? updateBrand() : addNewBrand()">
+                                <div class="form-group">
+                                    <label for="categoryName">Brand Name</label>
+                                    <input type="text" id="categoryName" v-model="newBrandName" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit">{{ isBrandEditMode ? 'Update' : 'Add' }} Brand</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="providers">
+                    <div class="card">
+                        <h3>Providers</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Contact Info</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-if="providers.length">
+                                    <tr v-for="provider in providers" :key="provider.id">
+                                        <td>{{ provider.id }}</td>
+                                        <td>{{ provider.nombre }}</td>
+                                        <td>{{ provider.infoContacto }}</td>
+                                        <td>
+                                            <button class="edit-btn" @click="editProvider(provider)">Edit</button>
+                                            <button class="delete-btn"
+                                                @click="deleteProvider(provider.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template v-else>
+                                    <tr>
+                                        <td colspan="4">No providers found.</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <button class="add-btn" @click="openAddProviderModal">Add New Provider</button>
+                    </div>
+
+                    <div v-if="showProviderModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close-btn" @click="closeProviderModal">&times;</span>
+                            <h2>{{ isProviderEditMode ? 'Edit Provider' : 'Add New Provider' }}</h2>
+                            <form @submit.prevent="isProviderEditMode ? updateProvider() : addNewProvider()">
+                                <div class="form-group">
+                                    <label for="providerName">Provider Name</label>
+                                    <input type="text" id="providerName" v-model="newProviderName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="providerContact">Contact Info</label>
+                                    <input type="text" id="providerContact" v-model="newProviderContact" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit">{{ isProviderEditMode ? 'Update' : 'Add' }} Provider</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+
                 <section id="reports">
                     <div class="card">
                         <h3>Reports</h3>
@@ -282,6 +400,13 @@ export default {
             users: [],
             products: [],
             categories: [],
+            brands: [],
+            providers: [],
+            showProviderModal: false,
+            isProviderEditMode: false,
+            newProviderName: '',
+            newProviderContact: '',
+            providerIdToUpdate: null,
             showChartModal: false,
             chartData: null,
             chart: null,
@@ -289,6 +414,10 @@ export default {
             isCategoryEditMode: false,
             newCategoryName: '',
             categoryIdToUpdate: null,
+            showBrandModal: false,
+            isBrandEditMode: false,
+            newBrandName: '',
+            brandIdToUpdate: null,
             showModal: false,
             isEditMode: false,
             showProductModal: false,
@@ -321,8 +450,102 @@ export default {
         this.fetchUsers();
         this.fetchProducts();
         this.fetchCategories();
+        this.fetchBrands();
+        this.fetchProviders();
     },
     methods: {
+        async fetchProviders() {
+            try {
+                const response = await axios.get('http://localhost:3000/proveedor');
+                this.providers = response.data;
+            } catch (error) {
+                console.error('Error fetching providers:', error);
+            }
+        },
+        async addNewProvider() {
+            try {
+                const providerPayload = {
+                    nombre: this.newProviderName,
+                    infoContacto: this.newProviderContact
+                };
+                await axios.post('http://localhost:3000/proveedor', providerPayload);
+                this.fetchProviders();
+                this.closeProviderModal();
+            } catch (error) {
+                console.error('Error adding new provider:', error);
+            }
+        },
+        async deleteProvider(providerId) {
+            try {
+                await axios.delete(`http://localhost:3000/proveedor/${providerId}`);
+                this.fetchProviders();
+            } catch (error) {
+                console.error('Error deleting provider:', error);
+            }
+        },
+        async updateProvider() {
+            try {
+                const providerPayload = {
+                    nombre: this.newProviderName,
+                    infoContacto: this.newProviderContact
+                };
+                await axios.patch(`http://localhost:3000/proveedor/${this.providerIdToUpdate}`, providerPayload);
+                this.fetchProviders();
+                this.closeProviderModal();
+            } catch (error) {
+                console.error('Error updating provider:', error);
+            }
+        },
+        editProduct(product) {
+            this.isEditMode = true;
+            this.productName = product.nombre;
+            this.productDescription = product.descripcion;
+            this.productPrice = product.precio;
+            this.productStock = product.cantidadStock;
+            this.productCategory = product.categoria; // Asegúrate de que esto sea el ID de la categoría
+            this.productBrand = product.marca; // Asegúrate de que esto sea el ID de la marca
+            this.productSupplier = product.proveedor; // Asegúrate de que esto sea el ID del proveedor
+            this.productIdToUpdate = product.id; // Asigna el ID del producto a actualizar
+            this.showProductModal = true;
+        },
+        async updateProduct() {
+            try {
+                const formData = new FormData();
+                //formData.append('file', this.productImage);
+                formData.append('nombre', this.productName);
+                formData.append('descripcion', this.productDescription);
+                formData.append('precio', this.productPrice);
+                formData.append('cantidadStock', this.productStock);
+                formData.append('categoria', this.productCategory);
+                formData.append('marca', this.productBrand);
+                formData.append('proveedor', this.productSupplier);
+
+                const response = await axios.patch(`http://localhost:3000/producto/${this.productIdToUpdate}`, formData);
+                console.log('Producto actualizado:', response.data);
+                this.fetchProducts();
+                this.closeProductModal();
+            } catch (error) {
+                console.error('Error al actualizar el producto:', error);
+            }
+        },
+        openAddProviderModal() {
+            this.isProviderEditMode = false;
+            this.newProviderName = '';
+            this.newProviderContact = '';
+            this.showProviderModal = true;
+        },
+        closeProviderModal() {
+            this.showProviderModal = false;
+            this.newProviderName = '';
+            this.newProviderContact = '';
+        },
+        editProvider(provider) {
+            this.isProviderEditMode = true;
+            this.newProviderName = provider.nombre;
+            this.newProviderContact = provider.infoContacto;
+            this.providerIdToUpdate = provider.id;
+            this.showProviderModal = true;
+        },
         async showChart(userId) {
             try {
                 const response = await axios.get(`http://localhost:3000/orden-compra/grafico-pedidos/${userId}`);
@@ -442,6 +665,61 @@ export default {
             this.newCategoryName = category.nombre;
             this.categoryIdToUpdate = category.id;
             this.showCategoryModal = true;
+        },
+        async fetchBrands() {
+            try {
+                const response = await axios.get('http://localhost:3000/marca');
+                this.brands = response.data;
+            } catch (error) {
+                console.error('Error fetching brands:', error);
+            }
+        },
+        async addNewBrand() {
+            try {
+                const brandPayload = {
+                    nombre: this.newBrandName
+                };
+                await axios.post('http://localhost:3000/marca', brandPayload);
+                this.fetchBrands();
+                this.closeBrandModal();
+            } catch (error) {
+                console.error('Error adding new brand:', error);
+            }
+        },
+        async deleteBrand(brandId) {
+            try {
+                await axios.delete(`http://localhost:3000/brand/${brandId}`);
+                this.fetchBrands();
+            } catch (error) {
+                console.error('Error deleting brand:', error);
+            }
+        },
+        async updateBrand() {
+            try {
+                const brandPayload = {
+                    nombre: this.newBrandName
+                };
+                await axios.patch(`http://localhost:3000/marca/${this.brandIdToUpdate}`, brandPayload);
+                this.fetchBrands();
+                this.closeBrandModal();
+            } catch (error) {
+                console.error('Error updating brand:', error);
+            }
+        },
+        openAddBrandModal() {
+            this.isBrandEditMode = false;
+            this.newBrandName = '';
+            this.showBrandModal = true;
+        },
+        closeBrandModal() {
+            this.showBrandModal = false;
+            this.newBrandName = '';
+        },
+        editBrand(brand) {
+            this.isBrandEditMode = true;
+            this.newBrandName = brand.nombre;
+            this.brandIdToUpdateBrand = brand.id;
+            this.showBrandModal = true;
         },
         async fetchProducts() {
             try {
@@ -580,6 +858,7 @@ export default {
                 // Enviar la solicitud POST al servidor
                 const response = await axios.post('http://localhost:3000/producto/create', formData);
                 console.log('Nuevo producto agregado:', response.data);
+                this.fetchProducts();
                 this.closeProductModal();
             } catch (error) {
                 console.error('Error al agregar nuevo producto:', error);
@@ -683,11 +962,6 @@ header h1 {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Elimina esta línea para permitir que las tarjetas ocupen todo el ancho disponible */
-    /* flex: 1 1 calc(33.333% - 40px); */
-    display: flex;
-    flex-direction: column;
-    /* Agrega esta línea para que las tarjetas ocupen todo el ancho disponible */
     width: 100%;
 }
 
@@ -773,7 +1047,10 @@ button.add-btn:hover {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90%;
+    overflow-y: auto;
 }
 
 .close-btn {
@@ -823,41 +1100,6 @@ button[type="submit"]:hover {
     display: inline-block;
     font-size: 14px;
     margin: 4px 2px;
-    cursor: pointer;
-}
-
-.modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 4px;
-    width: 600px;
-}
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: black;
-    text-decoration: none;
     cursor: pointer;
 }
 
