@@ -72,14 +72,14 @@
               >
                 <div class="card text-center card-product">
                   <div class="card-product__img">
-                    <!-- Usa la imagen del producto -->
-                    <img class="card-img" :src="product.image" alt="" />
-                    <ul class="card-product__imgOverlay">
-                      <li>
-                        <button><i class="ti-shopping-cart"></i></button>
-                      </li>
-                    </ul>
-                  </div>
+            <!-- Utiliza la imagen del producto -->
+            <img class="card-img" :src="product.imagenUrl" alt="" />
+            <ul class="card-product__imgOverlay">
+                <li>
+                    <button @click="addToCart"><i class="ti-shopping-cart"></i></button>
+                </li>
+            </ul>
+        </div>
                   <div class="card-body">
                     <!-- Muestra la categoría del producto -->
                     <p>{{ product.categoryName }}</p>
@@ -168,7 +168,23 @@ export default {
         })
       );
       return productsWithCategories;
-    }
+    },
+    async addToCart() {
+			try {
+				const cartItem = {
+					clienteId: this.user.id,
+					productId: this.product.id,
+					cantidad: 1,
+					precioUnitario: this.product.precio
+				};
+				const response = await axios.post('http://localhost:3000/item-carrito/agregar-producto', cartItem);
+				console.log('Producto agregado al carrito:', response.data);
+				alert('Producto agregado al carrito correctamente!');
+			} catch (error) {
+				console.error('Error adding product to cart:', error);
+				alert('Hubo un error al agregar el producto al carrito.');
+			}
+		}
   }
 };
 </script>

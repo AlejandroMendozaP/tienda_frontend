@@ -23,9 +23,9 @@
 			<div class="row s_product_inner">
 				<!-- Aquí puedes mostrar la información del producto utilizando el ID proporcionado -->
 				<div class="col-lg-6">
-					<div class="owl-carousel owl-theme s_Product_carousel">
+					<div >
 						<div class="single-prd-item">
-							<img class="img-fluid" :src="product.image" alt="" />
+							<img class="img-fluid" :src="product.imagenUrl" alt="" />
 						</div>
 					</div>
 				</div>

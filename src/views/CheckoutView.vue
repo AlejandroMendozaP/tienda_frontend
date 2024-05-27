@@ -68,27 +68,15 @@
                                 <li><a href="#">Subtotal <span>${{ cartSubtotal }}</span></a></li>
                                 <li><a href="#">Total <span>${{ cartTotal }}</span></a></li>
                             </ul>
-                            <div class="payment_item">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option5" name="selector">
-                                    <label for="f-option5">Check payments</label>
-                                    <div class="check"></div>
-                                </div>
-                                <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
-                                    Store Postcode.</p>
-                            </div>
                             <div class="payment_item active">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option6" name="selector">
+                                <div>
                                     <label for="f-option6">Paypal </label>
-                                    <img src="img/product/card.jpg" alt="">
-                                    <div class="check"></div>
                                 </div>
                                 <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.
                                 </p>
                             </div>
                             <div class="text-center">
-                                <a class="button button-paypal" href="#">Proceed to Paypal</a>
+                                <button class="button button-paypal" @click.prevent="proceedToPaypal">Proceed to Paypal</button>
                             </div>
                         </div>
                     </div>
@@ -183,7 +171,49 @@ export default {
             } catch (error) {
                 console.error('Error fetching cart total:', error);
             }
+        },
+        async proceedToPaypal() {
+    try {
+        // 1. Crear una orden de compra
+        const ordenCompraResponse = await axios.post('http://localhost:3000/orden-compra', {
+            clienteId: this.user.id,
+            estado: 'activo'
+        });
+        const ordenId = ordenCompraResponse.data.id;
+
+        // 2. Crear detalles de orden para cada producto en el carrito
+        await Promise.all(this.cartItems.map(async item => {
+            await axios.post('http://localhost:3000/detalle-orden', {
+                ordenId: ordenId,
+                productoId: item.productId,
+                cantidad: item.cantidad,
+                precioUnit: item.precioUnitario
+            });
+        }));
+
+        // 3. Patch para cambiar el estado del carrito a "Finalizado"
+        if (this.cartItems.length > 0) {
+            const carritoId = this.cartItems[0].carritoId;
+            await axios.patch(`http://localhost:3000/carrito-compra/${carritoId}`, {
+                estado: 'Finalizado'
+            });
         }
+
+        // 4. Crear el pago en PayPal y redirigir al usuario
+        const paymentData = {
+            amount: this.cartTotal,
+            currency: 'MXN'
+        };
+        const response = await axios.post('http://localhost:3000/paypal/create-payment', paymentData);
+        const approvalUrl = response.data.links.find(link => link.rel === 'approval_url').href;
+        window.location.href = approvalUrl;
+    } catch (error) {
+        console.error('Error proceeding to PayPal:', error);
+    }
+}
+
     }
 };
 </script>
+
+
