@@ -57,6 +57,11 @@ const routes = [
             component: () => import('@/views/CheckoutView.vue')
           }
         ]
+      },
+      {
+        path: '/admin', // Define la ruta de la página de contacto
+        name: 'Admin', // Nombre de la ruta
+        component: () => import('@/views/AdminView.vue')
       }
     ]
   }
